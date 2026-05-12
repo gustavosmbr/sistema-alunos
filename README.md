@@ -119,3 +119,14 @@ npm run dev
 ### Presentation Layer
 - Controllers: AlunosController, AuthController
 - Filters: JwtAuthFilter
+
+## 🏛️ Clean Architecture no Frontend
+
+O frontend foi estruturado seguindo os mesmos princípios de separação de responsabilidades do backend:
+
+1.  **Domain (Domínio)**: Contém as definições de tipos, interfaces e entidades do sistema. É a camada mais interna e não conhece detalhes de implementação de outras camadas.
+2.  **Application (Aplicação)**: Responsável pela lógica de estado e coordenação (Hooks customizados). Centraliza como os dados fluem através dos componentes.
+3.  **Infrastructure (Infraestrutura)**: Implementa a comunicação com o mundo externo (API via Axios). Contém a configuração do cliente HTTP e as chamadas reais aos endpoints.
+4.  **Presentation (Apresentação)**: Camada de interface com o usuário. Contém os componentes React, páginas e estilos (Tailwind). Focada puramente em como os dados são exibidos e como o usuário interage com o sistema.
+
+Esta separação garante que, se precisarmos trocar a biblioteca de API (ex: de Axios para Fetch) ou o framework de UI, o impacto nas regras de negócio e definições de dados seja mínimo.
