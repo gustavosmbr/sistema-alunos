@@ -48,16 +48,16 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=alunos.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IAlunoService, AlunoService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-var jwtKey = builder.Configuration["Jwt:SecretKey"] ?? "MinhaChaveSecretaSuperSegura2024!@#$%";
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "AlunosApi";
-var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "AlunosApiClient";
+var jwtKey = builder.Configuration["Jwt:SecretKey"]!;
+var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
+var jwtAudience = builder.Configuration["Jwt:Audience"]!;
 
 builder.Services.AddAuthentication(options =>
 {
@@ -98,10 +98,11 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
     }
 }
-
+if (app.Environment.IsDevelopment())
+{
 app.UseSwagger();
 app.UseSwaggerUI();
-
+}
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
