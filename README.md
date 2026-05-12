@@ -101,7 +101,7 @@ npm run dev
 - Data de Cadastro (automatico)
 - Status (ativo/inativo)
 
-## Camadas (Clean Architecture)
+## Backend (Clean Architecture)
 
 ### Domain Layer
 - Entities: Aluno, Usuario
@@ -121,7 +121,7 @@ npm run dev
 - Controllers: AlunosController, AuthController
 - Filters: JwtAuthFilter
 
-## Clean Architecture no Frontend
+## Frontend (Clean Architecture)
 
 O frontend foi estruturado seguindo os mesmos princípios de separação de responsabilidades do backend:
 
