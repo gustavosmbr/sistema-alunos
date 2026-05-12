@@ -1,8 +1,8 @@
-# 🎓 Sistema de Cadastro de Alunos
+# Sistema de Cadastro de Alunos
 
 Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLID.
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Backend**: .NET 8 (ASP.NET Core Web API)
 - **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS
@@ -11,20 +11,20 @@ Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLI
 - **Máscaras**: jQuery Mask Plugin para uma experiência de usuário fluida
 - **Autenticação**: JWT (JSON Web Token)
 
-## ✨ Funcionalidades Principais
+## Funcionalidades Principais
 
-- **🔒 Autenticação Segura**: Sistema de login com proteção de rotas via JWT.
-- **📋 Gestão Completa (CRUD)**:
+- ** Autenticação Segura**: Sistema de login com proteção de rotas via JWT.
+- ** Gestão Completa (CRUD)**:
   - Listagem, Cadastro, Edição e Exclusão de alunos.
   - Filtro de busca inteligente por Nome, Email ou CPF.
-- **🔢 Ordenação Dinâmica**: Clique nos cabeçalhos das colunas para ordenar a listagem (A-Z / Z-A) em tempo real.
-- **✅ Validações de Negócio Avançadas**:
+- ** Ordenação Dinâmica**: Clique nos cabeçalhos das colunas para ordenar a listagem (A-Z / Z-A) em tempo real.
+- ** Validações de Negócio Avançadas**:
   - **CPF**: Validação matemática real dos dígitos verificadores (Algoritmo da Receita Federal).
   - **Matrícula**: Campo numérico obrigatório e único no sistema.
   - **Telefone**: Validação de formato brasileiro (mínimo 10 dígitos com DDD).
   - **Email**: Verificação de duplicidade e formato.
 
-## 🏗️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 sistema-alunos/
@@ -45,7 +45,7 @@ sistema-alunos/
 │           │   └── presentation/   # Componentes UI (Tailwind CSS) e Páginas
 ```
 
-## 🛠️ Como Executar o Projeto
+## Como Executar o Projeto
 
 ### 1. Clonar o repositório
 ```bash
