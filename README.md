@@ -84,13 +84,14 @@ npm run dev
 
 ### CRUD Alunos
 - Listar todos os alunos
-- Pesquisar por nome/email/CPF
+- Pesquisar por matrícula/nome/email/CPF
 - Cadastrar novo aluno
 - Editar aluno existente
 - Excluir aluno
 - Status ativo/inativo
 
 ### Dados do Aluno
+- Matrícula (obrigatorio)
 - Nome (obrigatorio)
 - Email (obrigatorio, unico)
 - CPF (obrigatorio, unico)
