@@ -39,6 +39,9 @@ public class AlunoService : IAlunoService
         if (!CpfValidator.Validar(dto.Cpf))
             throw new InvalidOperationException("CPF inválido");
 
+        if (dto.DataNascimento.HasValue && dto.DataNascimento.Value.Date >= DateTime.Now.Date)
+            throw new InvalidOperationException("A data de nascimento deve ser menor que a data atual");
+
         var existingEmail = await _repository.GetByEmailAsync(dto.Email);
         if (existingEmail != null)
             throw new InvalidOperationException("Email já cadastrado");
@@ -76,6 +79,9 @@ public class AlunoService : IAlunoService
 
         if (!CpfValidator.Validar(dto.Cpf))
             throw new InvalidOperationException("CPF inválido");
+
+        if (dto.DataNascimento.HasValue && dto.DataNascimento.Value.Date >= DateTime.Now.Date)
+            throw new InvalidOperationException("A data de nascimento deve ser menor que a data atual");
 
         var existingEmail = await _repository.GetByEmailAsync(dto.Email);
         if (existingEmail != null && existingEmail.Id != id)

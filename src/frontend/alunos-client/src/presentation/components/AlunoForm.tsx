@@ -56,7 +56,13 @@ const alunoSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
   email: z.string().email('Email inválido'),
   cpf: cpfValidator,
-  dataNascimento: z.string().optional(),
+  dataNascimento: z.string().optional().refine((val) => {
+    if (!val) return true;
+    const selectedDate = new Date(val + 'T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return selectedDate < today;
+  }, { message: 'A data de nascimento deve ser menor que a data atual' }),
   telefone: z.string().optional().refine((val) => {
     if (!val) return true;
     const digits = val.replace(/\D/g, '');
@@ -229,8 +235,11 @@ export function AlunoForm({ initialData, onSubmit, onCancel, isLoading }: AlunoF
               <input
                 type="date"
                 {...form.register('dataNascimento')}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 ${form.formState.errors.dataNascimento ? 'border-red-500' : ''}`}
               />
+              {form.formState.errors.dataNascimento && (
+                <p className="text-red-500 text-sm mt-1">{String(form.formState.errors.dataNascimento.message)}</p>
+              )}
             </div>
 
             <div>
