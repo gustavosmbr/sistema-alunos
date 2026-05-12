@@ -1,58 +1,74 @@
-# Sistema de Cadastro de Alunos
+# 🎓 Sistema de Cadastro de Alunos
 
 Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLID.
 
-## Stack Tecnologica
+## 🚀 Tecnologias Utilizadas
 
 - **Backend**: .NET 8 (ASP.NET Core Web API)
-- **Frontend**: React 18 + TypeScript + Vite
-- **Banco**: SQLite
-- **Auth**: JWT (JSON Web Token)
-- **Arquitetura**: Clean Architecture (separada)
+- **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS
+- **Banco de Dados**: SQLite (EF Core com suporte a migrations)
+- **Validação**: Zod (Frontend) & Data Annotations + Custom Validation (Backend)
+- **Máscaras**: jQuery Mask Plugin para uma experiência de usuário fluida
+- **Autenticação**: JWT (JSON Web Token)
 
-## Estrutura do Projeto
+## ✨ Funcionalidades Principais
+
+- **🔒 Autenticação Segura**: Sistema de login com proteção de rotas via JWT.
+- **📋 Gestão Completa (CRUD)**:
+  - Listagem, Cadastro, Edição e Exclusão de alunos.
+  - Filtro de busca inteligente por Nome, Email ou CPF.
+- **🔢 Ordenação Dinâmica**: Clique nos cabeçalhos das colunas para ordenar a listagem (A-Z / Z-A) em tempo real.
+- **✅ Validações de Negócio Avançadas**:
+  - **CPF**: Validação matemática real dos dígitos verificadores (Algoritmo da Receita Federal).
+  - **Matrícula**: Campo numérico obrigatório e único no sistema.
+  - **Telefone**: Validação de formato brasileiro (mínimo 10 dígitos com DDD).
+  - **Email**: Verificação de duplicidade e formato.
+
+## 🏗️ Estrutura do Projeto
 
 ```
 sistema-alunos/
 ├── src/
 │   ├── backend/
 │   │   └── AlunosApi/
-│   │       ├── Domain/          # Entidades, interfaces, enums
-│   │       ├── Application/    # Use cases, DTOs, services
-│   │       ├── Infrastructure/ # DbContext, repositories
-│   │       └── Presentation/   # Controllers
+│   │       ├── Domain/          # Entidades, Regras de Negócio, Utils (Ex: CpfValidator)
+│   │       ├── Application/    # Use Cases, DTOs, Mapeamentos
+│   │       ├── Infrastructure/ # Persistência (EF Core), Repositórios, Migrations
+│   │       └── Presentation/   # API Controllers e Configurações
 │   │
 │   └── frontend/
 │       └── alunos-client/
 │           ├── src/
-│           │   ├── domain/      # Tipos, entidades
-│           │   ├── application/ # Hooks
-│           │   ├── infrastructure/ # API client
-│           │   └── presentation/   # Componentes, páginas
+│           │   ├── domain/      # Definições de Tipos e Interfaces
+│           │   ├── application/ # Hooks customizados e serviços
+│           │   ├── infrastructure/ # Cliente Axios e integração API
+│           │   └── presentation/   # Componentes UI (Tailwind CSS) e Páginas
 ```
 
-## Como Executar
+## 🛠️ Como Executar o Projeto
 
-### Backend (.NET 8)
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/gustavosmbr/sistema-alunos.git
+cd sistema-alunos
+```
 
+### 2. Rodar o Backend
 ```bash
 cd src/backend/AlunosApi
 dotnet restore
 dotnet run
 ```
+> A API estará disponível em: `http://localhost:5000`  
+> Documentação Swagger: `http://localhost:5000/swagger`
 
-A API estará disponível em: `http://localhost:5000`
-Swagger: `http://localhost:5000/swagger`
-
-### Frontend (React)
-
+### 3. Rodar o Frontend
 ```bash
 cd src/frontend/alunos-client
 npm install
 npm run dev
 ```
-
-O frontend estará disponível em: `http://localhost:5173`
+> O sistema estará disponível em: `http://localhost:5173`
 
 ## Credenciais Padrao
 
