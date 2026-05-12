@@ -137,4 +137,4 @@ O frontend foi estruturado seguindo os mesmos princípios de separação de resp
 ### Presentation (Apresentação)
 - Camada de interface com o usuário. Contém os componentes React, páginas e estilos (Tailwind). Focada puramente em como os dados são exibidos e como o usuário interage com o sistema.
 
-Esta separação garante que se precisar trocar a biblioteca de API (ex: de Axios para Fetch) ou o framework de UI, o impacto nas regras de negócio e definições de dados seja mínimo.
+** Esta separação garante que se precisar trocar a biblioteca de API (ex: de Axios para Fetch) ou o framework de UI, o impacto nas regras de negócio e definições de dados seja mínimo.
