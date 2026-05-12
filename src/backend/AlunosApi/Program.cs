@@ -98,10 +98,11 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
     }
 }
-
+if (app.Environment.IsDevelopment())
+{
 app.UseSwagger();
 app.UseSwaggerUI();
-
+}
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();

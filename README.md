@@ -1,8 +1,8 @@
-# 🎓 Sistema de Cadastro de Alunos
+# Sistema de Cadastro de Alunos
 
 Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLID.
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Backend**: .NET 8 (ASP.NET Core Web API)
 - **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS
@@ -11,20 +11,20 @@ Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLI
 - **Máscaras**: jQuery Mask Plugin para uma experiência de usuário fluida
 - **Autenticação**: JWT (JSON Web Token)
 
-## ✨ Funcionalidades Principais
+## Funcionalidades Principais
 
-- **🔒 Autenticação Segura**: Sistema de login com proteção de rotas via JWT.
-- **📋 Gestão Completa (CRUD)**:
+- ** Autenticação Segura**: Sistema de login com proteção de rotas via JWT.
+- ** Gestão Completa (CRUD)**:
   - Listagem, Cadastro, Edição e Exclusão de alunos.
   - Filtro de busca inteligente por Nome, Email ou CPF.
-- **🔢 Ordenação Dinâmica**: Clique nos cabeçalhos das colunas para ordenar a listagem (A-Z / Z-A) em tempo real.
-- **✅ Validações de Negócio Avançadas**:
+- ** Ordenação Dinâmica**: Clique nos cabeçalhos das colunas para ordenar a listagem (A-Z / Z-A) em tempo real.
+- ** Validações de Negócio Avançadas**:
   - **CPF**: Validação matemática real dos dígitos verificadores (Algoritmo da Receita Federal).
   - **Matrícula**: Campo numérico obrigatório e único no sistema.
   - **Telefone**: Validação de formato brasileiro (mínimo 10 dígitos com DDD).
   - **Email**: Verificação de duplicidade e formato.
 
-## 🏗️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 sistema-alunos/
@@ -45,7 +45,7 @@ sistema-alunos/
 │           │   └── presentation/   # Componentes UI (Tailwind CSS) e Páginas
 ```
 
-## 🛠️ Como Executar o Projeto
+## Como Executar o Projeto
 
 ### 1. Clonar o repositório
 ```bash
@@ -84,13 +84,14 @@ npm run dev
 
 ### CRUD Alunos
 - Listar todos os alunos
-- Pesquisar por nome/email/CPF
+- Pesquisar por matrícula/nome/email/CPF
 - Cadastrar novo aluno
 - Editar aluno existente
 - Excluir aluno
 - Status ativo/inativo
 
 ### Dados do Aluno
+- Matrícula (obrigatorio)
 - Nome (obrigatorio)
 - Email (obrigatorio, unico)
 - CPF (obrigatorio, unico)
@@ -120,13 +121,20 @@ npm run dev
 - Controllers: AlunosController, AuthController
 - Filters: JwtAuthFilter
 
-## 🏛️ Clean Architecture no Frontend
+## Clean Architecture no Frontend
 
 O frontend foi estruturado seguindo os mesmos princípios de separação de responsabilidades do backend:
 
-1.  **Domain (Domínio)**: Contém as definições de tipos, interfaces e entidades do sistema. É a camada mais interna e não conhece detalhes de implementação de outras camadas.
-2.  **Application (Aplicação)**: Responsável pela lógica de estado e coordenação (Hooks customizados). Centraliza como os dados fluem através dos componentes.
-3.  **Infrastructure (Infraestrutura)**: Implementa a comunicação com o mundo externo (API via Axios). Contém a configuração do cliente HTTP e as chamadas reais aos endpoints.
-4.  **Presentation (Apresentação)**: Camada de interface com o usuário. Contém os componentes React, páginas e estilos (Tailwind). Focada puramente em como os dados são exibidos e como o usuário interage com o sistema.
+### Domain (Domínio)
+- Contém as definições de tipos, interfaces e entidades do sistema. É a camada mais interna e não conhece detalhes de implementação de outras camadas.
 
-Esta separação garante que, se precisarmos trocar a biblioteca de API (ex: de Axios para Fetch) ou o framework de UI, o impacto nas regras de negócio e definições de dados seja mínimo.
+### Application (Aplicação)
+- Responsável pela lógica de estado e coordenação (Hooks customizados). Centraliza como os dados fluem através dos componentes.
+
+### Infrastructure (Infraestrutura)
+- Implementa a comunicação com o mundo externo (API via Axios). Contém a configuração do cliente HTTP e as chamadas reais aos endpoints.
+
+### Presentation (Apresentação)
+- Camada de interface com o usuário. Contém os componentes React, páginas e estilos (Tailwind). Focada puramente em como os dados são exibidos e como o usuário interage com o sistema.
+
+** Esta separação garante que se precisar trocar a biblioteca de API (ex: de Axios para Fetch) ou o framework de UI, o impacto nas regras de negócio e definições de dados seja mínimo.
