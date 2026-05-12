@@ -84,7 +84,7 @@ export function AlunosPage() {
             </svg>
             <input
               type="text"
-              placeholder="Buscar por nome, email ou CPF..."
+              placeholder="Buscar por nome, matrícula, email ou CPF..."
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"

@@ -46,11 +46,11 @@ public class AlunoRepository : IAlunoRepository
 
     public async Task<IEnumerable<Aluno>> SearchAsync(string termo)
     {
-        var lowerTerm = termo.ToLower();
         return await _context.Alunos
-            .Where(a => a.Nome.ToLower().Contains(lowerTerm) ||
-                        a.Email.ToLower().Contains(lowerTerm) ||
-                        a.Cpf.Contains(termo))
+            .Where(a => EF.Functions.Like(a.Nome, $"%{termo}%") ||
+                        EF.Functions.Like(a.Email, $"%{termo}%") ||
+                        EF.Functions.Like(a.Cpf, $"%{termo}%") ||
+                        EF.Functions.Like(a.Matricula, $"%{termo}%"))
             .OrderByDescending(a => a.DataCadastro)
             .ToListAsync();
     }

@@ -16,7 +16,7 @@ Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLI
 - ** Autenticação Segura**: Sistema de login com proteção de rotas via JWT.
 - ** Gestão Completa (CRUD)**:
   - Listagem, Cadastro, Edição e Exclusão de alunos.
-  - Filtro de busca inteligente por Nome, Email ou CPF.
+  - Filtro de busca inteligente por Matrícula, Nome, Email ou CPF.
 - ** Ordenação Dinâmica**: Clique nos cabeçalhos das colunas para ordenar a listagem (A-Z / Z-A) em tempo real.
 - ** Validações de Negócio Avançadas**:
   - **CPF**: Validação matemática real dos dígitos verificadores (Algoritmo da Receita Federal).
@@ -59,8 +59,8 @@ cd src/backend/AlunosApi
 dotnet restore
 dotnet run
 ```
-> A API estará disponível em: `http://localhost:5000`  
-> Documentação Swagger: `http://localhost:5000/swagger`
+> A API estará disponível em: `http://localhost:5234`  
+> Documentação Swagger: `http://localhost:5234/swagger`
 
 ### 3. Rodar o Frontend
 ```bash
