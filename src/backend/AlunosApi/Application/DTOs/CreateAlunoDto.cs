@@ -8,6 +8,10 @@ public class CreateAlunoDto
     [StringLength(100, MinimumLength = 2, ErrorMessage = "Nome deve ter entre 2 e 100 caracteres")]
     public string Nome { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "Matrícula é obrigatória")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "Matrícula deve conter apenas números")]
+    public string Matricula { get; set; } = string.Empty;
+
     [Required(ErrorMessage = "Email é obrigatório")]
     [EmailAddress(ErrorMessage = "Email inválido")]
     public string Email { get; set; } = string.Empty;
@@ -18,7 +22,7 @@ public class CreateAlunoDto
 
     public DateTime? DataNascimento { get; set; }
 
-    [Phone(ErrorMessage = "Telefone inválido")]
+    [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Telefone inválido")]
     public string? Telefone { get; set; }
 
     [StringLength(200, ErrorMessage = "Endereço deve ter no máximo 200 caracteres")]

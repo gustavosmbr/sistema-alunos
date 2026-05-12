@@ -1,5 +1,6 @@
 export interface Aluno {
   id: number;
+  matricula: string;
   nome: string;
   email: string;
   cpf: string;
@@ -11,6 +12,7 @@ export interface Aluno {
 }
 
 export interface CreateAlunoDto {
+  matricula: string;
   nome: string;
   email: string;
   cpf: string;

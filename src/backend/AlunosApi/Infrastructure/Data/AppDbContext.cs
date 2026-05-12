@@ -21,12 +21,14 @@ public class AppDbContext : DbContext
             entity.ToTable("Alunos");
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Nome).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Matricula).IsRequired().HasMaxLength(20);
             entity.Property(e => e.Email).IsRequired().HasMaxLength(100);
             entity.Property(e => e.Cpf).IsRequired().HasMaxLength(11);
             entity.Property(e => e.Telefone).HasMaxLength(20);
             entity.Property(e => e.Endereco).HasMaxLength(200);
             entity.HasIndex(e => e.Email).IsUnique();
             entity.HasIndex(e => e.Cpf).IsUnique();
+            entity.HasIndex(e => e.Matricula).IsUnique();
         });
 
         modelBuilder.Entity<Usuario>(entity =>

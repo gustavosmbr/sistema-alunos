@@ -3,6 +3,7 @@ using AlunosApi.Application.DTOs;
 using AlunosApi.Application.Interfaces;
 using AlunosApi.Domain.Entities;
 using AlunosApi.Domain.Interfaces;
+using AlunosApi.Domain.Utils;
 
 namespace AlunosApi.Application.UseCases;
 
@@ -35,6 +36,9 @@ public class AlunoService : IAlunoService
 
     public async Task<AlunoDto> CreateAsync(CreateAlunoDto dto)
     {
+        if (!CpfValidator.Validar(dto.Cpf))
+            throw new InvalidOperationException("CPF inválido");
+
         var existingEmail = await _repository.GetByEmailAsync(dto.Email);
         if (existingEmail != null)
             throw new InvalidOperationException("Email já cadastrado");
@@ -43,9 +47,14 @@ public class AlunoService : IAlunoService
         if (existingCpf != null)
             throw new InvalidOperationException("CPF já cadastrado");
 
+        var existingMatricula = await _repository.GetByMatriculaAsync(dto.Matricula);
+        if (existingMatricula != null)
+            throw new InvalidOperationException("Matrícula já cadastrada");
+
         var aluno = new Aluno
         {
             Nome = dto.Nome,
+            Matricula = dto.Matricula,
             Email = dto.Email,
             Cpf = dto.Cpf,
             DataNascimento = dto.DataNascimento,
@@ -65,6 +74,9 @@ public class AlunoService : IAlunoService
         if (existing == null)
             throw new InvalidOperationException("Aluno não encontrado");
 
+        if (!CpfValidator.Validar(dto.Cpf))
+            throw new InvalidOperationException("CPF inválido");
+
         var existingEmail = await _repository.GetByEmailAsync(dto.Email);
         if (existingEmail != null && existingEmail.Id != id)
             throw new InvalidOperationException("Email já está em uso");
@@ -73,7 +85,12 @@ public class AlunoService : IAlunoService
         if (existingCpf != null && existingCpf.Id != id)
             throw new InvalidOperationException("CPF já está em uso");
 
+        var existingMatricula = await _repository.GetByMatriculaAsync(dto.Matricula);
+        if (existingMatricula != null && existingMatricula.Id != id)
+            throw new InvalidOperationException("Matrícula já está em uso");
+
         existing.Nome = dto.Nome;
+        existing.Matricula = dto.Matricula;
         existing.Email = dto.Email;
         existing.Cpf = dto.Cpf;
         existing.DataNascimento = dto.DataNascimento;
@@ -93,6 +110,7 @@ public class AlunoService : IAlunoService
     private static AlunoDto MapToDto(Aluno aluno) => new()
     {
         Id = aluno.Id,
+        Matricula = aluno.Matricula,
         Nome = aluno.Nome,
         Email = aluno.Email,
         Cpf = aluno.Cpf,
