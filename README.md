@@ -1,6 +1,6 @@
 # 🎓 Sistema de Cadastro de Alunos
 
-Sistema profissional para gestão de alunos, desenvolvido com uma arquitetura moderna e robusta utilizando **.NET 8** no backend e **React** no frontend. O projeto segue rigorosamente os princípios de **Clean Architecture**, **DDD (Domain-Driven Design)** e **SOLID**.
+Sistema completo com API em .NET 8 + React, utilizando Clean Architecture e SOLID.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -70,10 +70,52 @@ npm run dev
 ```
 > O sistema estará disponível em: `http://localhost:5173`
 
-## 🔑 Credenciais de Acesso (Padrão)
+## Credenciais Padrao
 
-- **Usuário**: `admin`
-- **Senha**: `admin123`
+- **Usuário**: admin
+- **Senha**: admin123
 
----
-Desenvolvido com foco em qualidade de código e melhores práticas de engenharia de software.
+## Funcionalidades
+
+### Autenticacao
+- Login com JWT
+- Routes protegidas
+- Logout
+
+### CRUD Alunos
+- Listar todos os alunos
+- Pesquisar por nome/email/CPF
+- Cadastrar novo aluno
+- Editar aluno existente
+- Excluir aluno
+- Status ativo/inativo
+
+### Dados do Aluno
+- Nome (obrigatorio)
+- Email (obrigatorio, unico)
+- CPF (obrigatorio, unico)
+- Data de Nascimento
+- Telefone
+- Endereco
+- Data de Cadastro (automatico)
+- Status (ativo/inativo)
+
+## Camadas (Clean Architecture)
+
+### Domain Layer
+- Entities: Aluno, Usuario
+- Interfaces: IAlunoRepository, IUsuarioRepository
+- Enums: TipoUsuario
+
+### Application Layer
+- DTOs: AlunoDto, CreateAlunoDto, UpdateAlunoDto, LoginDto
+- Use Cases: AlunoService, AuthService
+- Interfaces: IAlunoService, IAuthService
+
+### Infrastructure Layer
+- Data: AppDbContext (EF Core + SQLite)
+- Repositories: AlunoRepository, UsuarioRepository
+
+### Presentation Layer
+- Controllers: AlunosController, AuthController
+- Filters: JwtAuthFilter
