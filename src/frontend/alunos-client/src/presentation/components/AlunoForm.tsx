@@ -11,17 +11,57 @@ declare global {
   }
 }
 
-const cpfValidator = z.string().refine((val) => {
-  const digits = val.replace(/\D/g, '');
-  return digits.length === 11;
-}, { message: 'CPF deve ter 11 dígitos' });
+const validateCPF = (cpf: string) => {
+  if (!cpf) return false;
+  cpf = cpf.replace(/\D/g, '');
+  if (cpf.length !== 11) return false;
+
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+  const multiplicador1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+  const multiplicador2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+
+  let tempCpf = cpf.substring(0, 9);
+  let soma = 0;
+
+  for (let i = 0; i < 9; i++) {
+    soma += parseInt(tempCpf[i]) * multiplicador1[i];
+  }
+
+  let resto = soma % 11;
+  resto = resto < 2 ? 0 : 11 - resto;
+
+  let digito = resto.toString();
+  tempCpf = tempCpf + digito;
+  soma = 0;
+
+  for (let i = 0; i < 10; i++) {
+    soma += parseInt(tempCpf[i]) * multiplicador2[i];
+  }
+
+  resto = soma % 11;
+  resto = resto < 2 ? 0 : 11 - resto;
+
+  digito = digito + resto.toString();
+
+  return cpf.endsWith(digito);
+};
+
+const cpfValidator = z.string().refine(validateCPF, { message: 'CPF inválido' });
 
 const alunoSchema = z.object({
+  matricula: z.string()
+    .min(1, 'Matrícula é obrigatória')
+    .regex(/^\d+$/, 'Matrícula deve conter apenas números'),
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
   email: z.string().email('Email inválido'),
   cpf: cpfValidator,
   dataNascimento: z.string().optional(),
-  telefone: z.string().optional(),
+  telefone: z.string().optional().refine((val) => {
+    if (!val) return true;
+    const digits = val.replace(/\D/g, '');
+    return digits.length >= 10 && digits.length <= 11;
+  }, { message: 'Telefone inválido' }),
   endereco: z.string().optional(),
 });
 
@@ -63,10 +103,12 @@ export function AlunoForm({ initialData, onSubmit, onCancel, isLoading }: AlunoF
     resolver: zodResolver(isEdit ? updateSchema : alunoSchema),
     defaultValues: initialData ? {
       ...initialData,
+      matricula: initialData.matricula || '',
       cpf: initialData.cpf || '',
       telefone: initialData.telefone || '',
       dataNascimento: initialData.dataNascimento?.split('T')[0] || '',
     } : {
+      matricula: '',
       nome: '',
       email: '',
       cpf: '',
@@ -107,15 +149,39 @@ export function AlunoForm({ initialData, onSubmit, onCancel, isLoading }: AlunoF
         </div>
         
         <form onSubmit={form.handleSubmit(handleSubmit)} className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Nome *</label>
-            <input
-              {...form.register('nome')}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-            />
-            {form.formState.errors.nome && (
-              <p className="text-red-500 text-sm mt-1">{String(form.formState.errors.nome.message)}</p>
-            )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Matrícula *</label>
+              <Controller
+                name="matricula"
+                control={form.control}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      field.onChange(value);
+                    }}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
+                    placeholder="Ex: 2024001"
+                  />
+                )}
+              />
+              {form.formState.errors.matricula && (
+                <p className="text-red-500 text-sm mt-1">{String(form.formState.errors.matricula.message)}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Nome *</label>
+              <input
+                {...form.register('nome')}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500"
+              />
+              {form.formState.errors.nome && (
+                <p className="text-red-500 text-sm mt-1">{String(form.formState.errors.nome.message)}</p>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -187,6 +253,9 @@ export function AlunoForm({ initialData, onSubmit, onCancel, isLoading }: AlunoF
                   />
                 )}
               />
+              {form.formState.errors.telefone && (
+                <p className="text-red-500 text-sm mt-1">{String(form.formState.errors.telefone.message)}</p>
+              )}
             </div>
           </div>
 

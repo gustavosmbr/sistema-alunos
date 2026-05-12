@@ -3,6 +3,7 @@ namespace AlunosApi.Application.DTOs;
 public class AlunoDto
 {
     public int Id { get; set; }
+    public string Matricula { get; set; } = string.Empty;
     public string Nome { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;

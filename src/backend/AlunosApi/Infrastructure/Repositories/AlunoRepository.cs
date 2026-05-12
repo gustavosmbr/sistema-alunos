@@ -38,6 +38,12 @@ public class AlunoRepository : IAlunoRepository
             .FirstOrDefaultAsync(a => a.Cpf == cpf);
     }
 
+    public async Task<Aluno?> GetByMatriculaAsync(string matricula)
+    {
+        return await _context.Alunos
+            .FirstOrDefaultAsync(a => a.Matricula == matricula);
+    }
+
     public async Task<IEnumerable<Aluno>> SearchAsync(string termo)
     {
         var lowerTerm = termo.ToLower();

@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react';
 import { Aluno } from '../../domain/Aluno';
 
 interface AlunoTableProps {
@@ -7,7 +8,62 @@ interface AlunoTableProps {
   loading: boolean;
 }
 
+type SortField = keyof Aluno;
+type SortOrder = 'asc' | 'desc';
+
+interface SortConfig {
+  field: SortField;
+  order: SortOrder;
+}
+
 export function AlunoTable({ alunos, onEdit, onDelete, loading }: AlunoTableProps) {
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ field: 'nome', order: 'asc' });
+
+  const sortedAlunos = useMemo(() => {
+    const sortableAlunos = [...alunos];
+    return sortableAlunos.sort((a, b) => {
+      const aValue = a[sortConfig.field];
+      const bValue = b[sortConfig.field];
+
+      if (aValue === null || aValue === undefined) return 1;
+      if (bValue === null || bValue === undefined) return -1;
+
+      if (aValue < bValue) {
+        return sortConfig.order === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [alunos, sortConfig]);
+
+  const handleSort = (field: SortField) => {
+    setSortConfig((prev) => ({
+      field,
+      order: prev.field === field && prev.order === 'asc' ? 'desc' : 'asc',
+    }));
+  };
+
+  const renderSortIcon = (field: SortField) => {
+    if (sortConfig.field !== field) {
+      return (
+        <svg className="w-3 h-3 text-gray-300 ml-1 inline" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7 10l5-5 5 5H7zm0 4l5 5 5-5H7z" />
+        </svg>
+      );
+    }
+    return sortConfig.order === 'asc' ? (
+      <svg className="w-3 h-3 text-orange-500 ml-1 inline" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7 14l5-5 5 5H7z" />
+      </svg>
+    ) : (
+      <svg className="w-3 h-3 text-orange-500 ml-1 inline" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7 10l5 5 5-5H7z" />
+      </svg>
+    );
+  };
+
   if (loading) {
     return (
       <div className="text-center py-12">
@@ -34,7 +90,7 @@ export function AlunoTable({ alunos, onEdit, onDelete, loading }: AlunoTableProp
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   };
 
-  const formatPhone = (phone: string) => {
+  const formatPhone = (phone: string | null) => {
     if (!phone) return '-';
     const digits = phone.replace(/\D/g, '');
     if (digits.length === 10) {
@@ -50,18 +106,55 @@ export function AlunoTable({ alunos, onEdit, onDelete, loading }: AlunoTableProp
       <table className="w-full">
         <thead>
           <tr className="border-b">
-            <th className="text-left py-3 px-4 font-semibold text-gray-600">Nome</th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-600">Email</th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-600">CPF</th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-600">Telefone</th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-600">Cadastro</th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-600">Status</th>
+            <th 
+              onClick={() => handleSort('matricula')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              Matrícula {renderSortIcon('matricula')}
+            </th>
+            <th 
+              onClick={() => handleSort('nome')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              Nome {renderSortIcon('nome')}
+            </th>
+            <th 
+              onClick={() => handleSort('email')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              Email {renderSortIcon('email')}
+            </th>
+            <th 
+              onClick={() => handleSort('cpf')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              CPF {renderSortIcon('cpf')}
+            </th>
+            <th 
+              onClick={() => handleSort('telefone')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              Telefone {renderSortIcon('telefone')}
+            </th>
+            <th 
+              onClick={() => handleSort('dataCadastro')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              Cadastro {renderSortIcon('dataCadastro')}
+            </th>
+            <th 
+              onClick={() => handleSort('ativo')}
+              className="text-left py-3 px-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-50 select-none"
+            >
+              Status {renderSortIcon('ativo')}
+            </th>
             <th className="text-center py-3 px-4 font-semibold text-gray-600">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {alunos.map((aluno) => (
+          {sortedAlunos.map((aluno) => (
             <tr key={aluno.id} className="border-b hover:bg-gray-50">
+              <td className="py-3 px-4 text-gray-600">{aluno.matricula}</td>
               <td className="py-3 px-4">{aluno.nome}</td>
               <td className="py-3 px-4 text-gray-600">{aluno.email}</td>
               <td className="py-3 px-4 text-gray-600">{formatCpf(aluno.cpf)}</td>
